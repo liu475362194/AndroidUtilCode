@@ -36,6 +36,50 @@ public final class CollectionUtils {
     ///////////////////////////////////////////////////////////////////////////
 
     /**
+     * List集合转换为数组
+     *
+     * @param items  List数据
+     * @param tClass 数据的类型class
+     * @param <T>    Class
+     * @return 转换完成后的数组
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T[] newArray(List<T> items, Class<T> tClass) {
+        if (items == null || items.size() == 0)
+            return null;
+        int size = items.size();
+        try {
+            T[] array = (T[]) Array.newInstance(tClass, size);
+            return items.toArray(array);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Set集合转换为数组
+     *
+     * @param items  List数据LogUtil
+     * @param tClass 数据的类型class
+     * @param <T>    Class
+     * @return 转换完成后的数组
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T[] newArray(Set<T> items, Class<T> tClass) {
+        if (items == null || items.size() == 0)
+            return null;
+        int size = items.size();
+        try {
+            T[] array = (T[]) Array.newInstance(tClass, size);
+            return items.toArray(array);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * Returns a new read-only list of given elements.
      *
      * @param array The array.
