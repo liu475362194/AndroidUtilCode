@@ -24,6 +24,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +121,90 @@ public final class ConvertUtils {
             bytes[i] = (byte) (chars[i]);
         }
         return bytes;
+    }
+
+    /**
+     * 将int数值转换为占四个字节的byte数组，本方法适用于(高位在前，低位在后)的顺序。
+     * 可自定义长度
+     */
+    public static byte[] int2Bytes(int value, int size) {
+        byte[] bytes = new byte[size];
+        for (int i = 0; i < size; i++) {
+            bytes[i] = (byte) ((value >> ((size - i - 1) * 8)) & 0xFF);
+        }
+        return bytes;
+    }
+
+    /**
+     * 将int数值转换为占四个字节的byte数组，本方法适用于(低位在前，高位在后)的顺序。
+     * 可自定义长度
+     */
+    public static byte[] int2Bytes2(int value, int size) {
+        byte[] bytes = new byte[size];
+        for (int i = 0; i < size; i++) {
+            bytes[size - i - 1] = (byte) ((value >> ((size - i - 1) * 8)) & 0xFF);
+        }
+        return bytes;
+    }
+
+    /**
+     * byte数组中取int数值，本方法适用于(高位在前，低位在后)的顺序。
+     * 可自定义获取的长度
+     */
+    public static int bytes2Int(byte[] bytes, int offset, int size) {
+        int value = 0;
+        for (int i = 0; i < size; i++) {
+            value = value | ((bytes[offset + i] & 0xFF) << ((size - i - 1) * 8));
+        }
+        return value;
+    }
+
+    /**
+     * byte数组中取int数值，本方法适用于(低位在前，高位在后)的顺序。
+     * 可自定义获取的长度
+     */
+    public static int bytes2Int2(byte[] bytes, int offset, int size) {
+        int value = 0;
+        for (int i = 0; i < size; i++) {
+            value = value | ((bytes[offset + i] & 0xFF) << (i * 8));
+        }
+        return value;
+    }
+
+    /**
+     * int 转 16进制字符串
+     *
+     * @param value 内容，int
+     * @param size  需要转换的大小
+     */
+    public static String int2HexString(int value, int size) {
+        String hexString = bytes2HexString(int2Bytes(value, size));
+        if (size > 1)
+            hexString = hexString.replace(" ", "");
+
+        return hexString;
+    }
+
+    /**
+     * 十进制转换成二进制
+     *
+     * @param value 十进制整数
+     * @return String 二进制字符串
+     */
+    public static String int2Binary(int value) {
+        BigInteger bi = new BigInteger(String.valueOf(value));    //转换成BigInteger类型
+        return bi.toString(2);    //参数2指定的是转化成X进制，默认10进制
+    }
+
+    /**
+     * 二进制转换成十进制
+     *
+     * @param value 二进制字符串，如“10101100”
+     * @return int 十进制整数
+     */
+    public static int binary2Int(String value) {
+        BigInteger bi = new BigInteger(value, 2);    //转换为BigInteger类型
+        return Integer.parseInt(bi.toString());        //转换成十进制
     }
 
     /**
