@@ -68,7 +68,8 @@ public final class EncodeUtils {
     public static String urlDecode(final String input, final String charsetName) {
         if (input == null || input.length() == 0) return "";
         try {
-            return URLDecoder.decode(input, charsetName);
+            String safeInput = input.replaceAll("%(?![0-9a-fA-F]{2})", "%25").replaceAll("\\+", "%2B");
+            return URLDecoder.decode(safeInput, charsetName);
         } catch (UnsupportedEncodingException e) {
             throw new AssertionError(e);
         }
@@ -174,7 +175,6 @@ public final class EncodeUtils {
      * @param input The input.
      * @return the string of decode html-encode string
      */
-    @SuppressWarnings("deprecation")
     public static CharSequence htmlDecode(final String input) {
         if (input == null || input.length() == 0) return "";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -187,16 +187,16 @@ public final class EncodeUtils {
     /**
      * Return the binary encoded string padded with one space
      *
-     * @param input
+     * @param input The input.
      * @return binary string
      */
-    public static String binEncode(final String input) {
-        StringBuilder stringBuilder = new StringBuilder();
+    public static String binaryEncode(final String input) {
+        if (input == null || input.length() == 0) return "";
+        StringBuilder sb = new StringBuilder();
         for (char i : input.toCharArray()) {
-            stringBuilder.append(Integer.toBinaryString(i));
-            stringBuilder.append(' ');
+            sb.append(Integer.toBinaryString(i)).append(" ");
         }
-        return stringBuilder.toString();
+        return sb.deleteCharAt(sb.length() - 1).toString();
     }
 
     /**
@@ -205,11 +205,12 @@ public final class EncodeUtils {
      * @param input binary string
      * @return UTF-8 String
      */
-    public static String binDecode(final String input) {
-        String[] splitted = input.split(" ");
+    public static String binaryDecode(final String input) {
+        if (input == null || input.length() == 0) return "";
+        String[] splits = input.split(" ");
         StringBuilder sb = new StringBuilder();
-        for (String i : splitted) {
-            sb.append(((char) Integer.parseInt(i.replace(" ", ""), 2)));
+        for (String split : splits) {
+            sb.append(((char) Integer.parseInt(split, 2)));
         }
         return sb.toString();
     }

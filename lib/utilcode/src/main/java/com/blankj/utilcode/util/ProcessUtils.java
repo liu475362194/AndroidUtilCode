@@ -2,6 +2,7 @@ package com.blankj.utilcode.util;
 
 import android.app.ActivityManager;
 import android.app.AppOpsManager;
+import android.app.Application;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
@@ -12,8 +13,14 @@ import android.content.pm.ResolveInfo;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
+import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -72,7 +79,6 @@ public final class ProcessUtils {
                         pm.getApplicationInfo(Utils.getApp().getPackageName(), 0);
                 AppOpsManager aom =
                         (AppOpsManager) Utils.getApp().getSystemService(Context.APP_OPS_SERVICE);
-                //noinspection ConstantConditions
                 if (aom.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
                         info.uid,
                         info.packageName) != AppOpsManager.MODE_ALLOWED) {
@@ -122,7 +128,6 @@ public final class ProcessUtils {
     public static Set<String> getAllBackgroundProcesses() {
         ActivityManager am =
                 (ActivityManager) Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE);
-        //noinspection ConstantConditions
         List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
         Set<String> set = new HashSet<>();
         if (info != null) {
@@ -143,7 +148,6 @@ public final class ProcessUtils {
     public static Set<String> killAllBackgroundProcesses() {
         ActivityManager am =
                 (ActivityManager) Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE);
-        //noinspection ConstantConditions
         List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
         Set<String> set = new HashSet<>();
         if (info == null) return set;
@@ -173,7 +177,6 @@ public final class ProcessUtils {
     public static boolean killBackgroundProcesses(@NonNull final String packageName) {
         ActivityManager am =
                 (ActivityManager) Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE);
-        //noinspection ConstantConditions
         List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
         if (info == null || info.size() == 0) return true;
         for (ActivityManager.RunningAppProcessInfo aInfo : info) {
@@ -197,7 +200,7 @@ public final class ProcessUtils {
      * @return {@code true}: yes<br>{@code false}: no
      */
     public static boolean isMainProcess() {
-        return Utils.getApp().getPackageName().equals(Utils.getCurrentProcessName());
+        return Utils.getApp().getPackageName().equals(getCurrentProcessName());
     }
 
     /**
@@ -206,6 +209,64 @@ public final class ProcessUtils {
      * @return the name of current process
      */
     public static String getCurrentProcessName() {
-        return Utils.getCurrentProcessName();
+        String name = getCurrentProcessNameByFile();
+        if (!TextUtils.isEmpty(name)) return name;
+        name = getCurrentProcessNameByAms();
+        if (!TextUtils.isEmpty(name)) return name;
+        name = getCurrentProcessNameByReflect();
+        return name;
+    }
+
+    private static String getCurrentProcessNameByFile() {
+        try {
+            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
+            BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
+            String processName = mBufferedReader.readLine().trim();
+            mBufferedReader.close();
+            return processName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private static String getCurrentProcessNameByAms() {
+        try {
+            ActivityManager am = (ActivityManager) Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE);
+            if (am == null) return "";
+            List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
+            if (info == null || info.size() == 0) return "";
+            int pid = android.os.Process.myPid();
+            for (ActivityManager.RunningAppProcessInfo aInfo : info) {
+                if (aInfo.pid == pid) {
+                    if (aInfo.processName != null) {
+                        return aInfo.processName;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            return "";
+        }
+        return "";
+    }
+
+    private static String getCurrentProcessNameByReflect() {
+        String processName = "";
+        try {
+            Application app = Utils.getApp();
+            Field loadedApkField = app.getClass().getField("mLoadedApk");
+            loadedApkField.setAccessible(true);
+            Object loadedApk = loadedApkField.get(app);
+
+            Field activityThreadField = loadedApk.getClass().getDeclaredField("mActivityThread");
+            activityThreadField.setAccessible(true);
+            Object activityThread = activityThreadField.get(loadedApk);
+
+            Method getProcessName = activityThread.getClass().getDeclaredMethod("getProcessName");
+            processName = (String) getProcessName.invoke(activityThread);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return processName;
     }
 }

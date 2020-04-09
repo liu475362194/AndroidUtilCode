@@ -8,8 +8,8 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ProcessUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.squareup.leakcanary.LeakCanary;
+import com.blankj.utildebug.DebugUtils;
+import com.blankj.utildebug.debug.IDebug;
 
 import java.util.ArrayList;
 
@@ -42,21 +42,9 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
-        DoraemonKit.install(this);
-        initLeakCanary();
         initLog();
         initCrash();
-    }
-
-    private void initLeakCanary() {// 内存泄露检查工具
-        if (isDebug()) {
-            if (LeakCanary.isInAnalyzerProcess(this)) {
-                // This process is dedicated to LeakCanary for heap analysis.
-                // You should not init your app in this process.
-                return;
-            }
-            LeakCanary.install(this);
-        }
+        initDebugMenu();
     }
 
     // init it in ur application
@@ -98,6 +86,10 @@ public class BaseApplication extends Application {
                 AppUtils.relaunchApp();
             }
         });
+    }
+
+    private void initDebugMenu() {
+        DebugUtils.addDebugs(new ArrayList<IDebug>());
     }
 
     private boolean isDebug() {

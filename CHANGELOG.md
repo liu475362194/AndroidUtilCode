@@ -1,4 +1,31 @@
-* `19/08/25` [upd] ImageUtils#getImageType. [add] LogUtils# Publish v1.25.9.
+* `20/04/08` [fix] ActivityUtils#finish bug. Publish v1.27.5.
+* `20/04/08` [fix] CleanUtils clean dir not work. FileUtils#isFileExists. Publish v1.27.4.
+* `20/04/08` [fix] CrashUtils DefaultUncaughtExceptionHandler is wrong; LogUtils write file failed; Utils#getApp failed run on remote process. Publish v1.27.3.
+* `20/04/07` [mdf] GsonUtils#getGson() method public.
+* `20/04/04` [fix] ShadowUtils bug running on lower version devices. Publish v1.27.2.
+* `20/04/03` [fix] UtilsActivityLifecycleImpl#HashMap#remove IllegalStateException bug.
+* `20/04/02` [fix] PathUtils sdcard enable state is wrong; ActivityUtils finish activity wrong; Publish v1.27.1.
+* `20/03/31` [add] Publish v1.27.0.
+* `20/03/30` [add] BatteryUtils in subutil.
+* `20/03/27` [add] publish.gradle.
+* `20/03/24` [add] UtilsBridge to clean the utils.
+* `20/03/22` [upd] GsonUtils support custom gson.
+* `20/03/20` [add] ActivityUtils#addActivityLifecycleCallbacks, ActivityUtils#removeActivityLifecycleCallbacks.
+* `20/01/17` [upd] Leak Canary to v2.1.
+* `20/01/06` [add] ClickUtils#expandClickArea, ClickUtils#back2HomeFriendly
+* `19/11/30` [add] Publish bus plugin v2.4. Publish api plugin v1.2.
+* `19/11/28` [add] Publish v1.26.0.
+* `19/11/27` [add] Shadow demo.
+* `19/11/26` [add] MVP demo.
+* `19/11/22` [fix] Adapt the project for Gradle version of 6.0.
+* `19/10/30` [add] Publish bus plugin v2.3. Publish api plugin v1.1.
+* `19/10/24` [upd] Demo's UI.
+* `19/10/22` [add] NotificationUtils and demo.
+* `19/10/20` [add] UiMessageUtils.
+* `19/09/20` [add] ShadowUtils.
+* `19/08/27` [add] DebugUtils.
+* `19/08/26` [fix] PermissionUtils NPE.
+* `19/08/25` [upd] ImageUtils#getImageType. [add] LogUtils#getLogFiles. Publish v1.25.9.
 * `19/08/24` [fix] PhoneUtils#getIMEI crash on SDK 29.
 * `19/08/23` [add] ViewUtils#isLayoutRtl.
 * `19/08/22` [add] LogUtils#getLogFiles.

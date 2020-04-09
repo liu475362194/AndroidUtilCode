@@ -2,6 +2,7 @@ package com.blankj.utilcode.util;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.StatFs;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
 
@@ -40,7 +41,7 @@ public final class SDCardUtils {
      * @return the path of sdcard by environment
      */
     public static String getSDCardPathByEnvironment() {
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+        if (isSDCardEnableByEnvironment()) {
             return Environment.getExternalStorageDirectory().getAbsolutePath();
         }
         return "";
@@ -53,8 +54,7 @@ public final class SDCardUtils {
      */
     public static List<SDCardInfo> getSDCardInfo() {
         List<SDCardInfo> paths = new ArrayList<>();
-        StorageManager sm =
-                (StorageManager) Utils.getApp().getSystemService(Context.STORAGE_SERVICE);
+        StorageManager sm = (StorageManager) Utils.getApp().getSystemService(Context.STORAGE_SERVICE);
         if (sm == null) return paths;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             List<StorageVolume> storageVolumes = sm.getStorageVolumes();
@@ -74,8 +74,6 @@ public final class SDCardUtils {
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
-            return paths;
-
         } else {
             try {
                 Class<?> storageVolumeClazz = Class.forName("android.os.storage.StorageVolume");
@@ -104,8 +102,67 @@ public final class SDCardUtils {
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            return paths;
         }
+        return paths;
+    }
+
+    /**
+     * Return the ptah of mounted sdcard.
+     *
+     * @return the ptah of mounted sdcard.
+     */
+    public static List<String> getMountedSDCardPath() {
+        List<String> path = new ArrayList<>();
+        List<SDCardInfo> sdCardInfo = getSDCardInfo();
+        if (sdCardInfo == null || sdCardInfo.isEmpty()) return path;
+        for (SDCardInfo cardInfo : sdCardInfo) {
+            String state = cardInfo.state;
+            if (state == null) continue;
+            if ("mounted".equals(state.toLowerCase())) {
+                path.add(cardInfo.path);
+            }
+        }
+        return path;
+    }
+
+    /**
+     * Return the total size of sdcard.
+     *
+     * @param path The path.
+     * @return the total size of sdcard
+     */
+    public static long getTotalSize(String path) {
+        StatFs statFs = new StatFs(path);
+        long blockSize;
+        long totalSize;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            blockSize = statFs.getBlockSizeLong();
+            totalSize = statFs.getBlockCountLong();
+        } else {
+            blockSize = statFs.getBlockSize();
+            totalSize = statFs.getBlockCount();
+        }
+        return blockSize * totalSize;
+    }
+
+    /**
+     * Return the available size of sdcard.
+     *
+     * @param path The path.
+     * @return the available size of sdcard
+     */
+    public static long getAvailableSize(final String path) {
+        StatFs statFs = new StatFs(path);
+        long blockSize;
+        long availableSize;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            blockSize = statFs.getBlockSizeLong();
+            availableSize = statFs.getAvailableBlocksLong();
+        } else {
+            blockSize = statFs.getBlockSize();
+            availableSize = statFs.getAvailableBlocks();
+        }
+        return blockSize * availableSize;
     }
 
     public static class SDCardInfo {

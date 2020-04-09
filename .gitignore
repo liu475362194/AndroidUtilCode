@@ -10,4 +10,6 @@ local.properties
 .externalNativeBuild
 /apk
 *.phrof
-/maven
+/mavenLocal
+/reports
+*/reports
