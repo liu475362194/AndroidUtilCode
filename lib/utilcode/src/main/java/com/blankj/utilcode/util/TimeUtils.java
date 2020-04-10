@@ -31,7 +31,7 @@ public final class TimeUtils {
     private static SimpleDateFormat getDateFormat(String pattern) {
         SimpleDateFormat simpleDateFormat = SDF_THREAD_LOCAL.get();
         if (simpleDateFormat == null) {
-            simpleDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
+            simpleDateFormat = new SimpleDateFormat(pattern, Locale.CHINA);
             SDF_THREAD_LOCAL.set(simpleDateFormat);
         } else {
             simpleDateFormat.applyPattern(pattern);
