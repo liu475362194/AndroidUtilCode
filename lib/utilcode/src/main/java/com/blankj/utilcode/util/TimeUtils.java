@@ -43,7 +43,7 @@ public final class TimeUtils {
         //noinspection ConstantConditions
         SimpleDateFormat simpleDateFormat = sdfMap.get(pattern);
         if (simpleDateFormat == null) {
-            simpleDateFormat = new SimpleDateFormat(pattern);
+            simpleDateFormat = new SimpleDateFormat(pattern, Locale.ENGLISH);
             sdfMap.put(pattern, simpleDateFormat);
         }
         return simpleDateFormat;
@@ -1522,8 +1522,8 @@ public final class TimeUtils {
         return CHINESE_ZODIAC[year % 12];
     }
 
-    private static final int[]    ZODIAC_FLAGS = {20, 19, 21, 21, 21, 22, 23, 23, 23, 24, 23, 22};
-    private static final String[] ZODIAC       = {
+    private static final int[] ZODIAC_FLAGS = {20, 19, 21, 21, 21, 22, 23, 23, 23, 24, 23, 22};
+    private static final String[] ZODIAC = {
             "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座",
             "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "魔羯座"
     };
