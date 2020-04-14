@@ -860,9 +860,6 @@ public final class SpanUtils {
         }
         mBuilder.append(mText);
         int end = mBuilder.length();
-        if (clickSpan != null) {
-            mBuilder.setSpan(clickSpan, start, end, flag);
-        }
         if (verticalAlign != -1) {
             mBuilder.setSpan(new VerticalAlignSpan(verticalAlign), start, end, flag);
         }
@@ -932,6 +929,9 @@ public final class SpanUtils {
         }
         if (alignment != null) {
             mBuilder.setSpan(new AlignmentSpan.Standard(alignment), start, end, flag);
+        }
+        if (clickSpan != null) {
+            mBuilder.setSpan(clickSpan, start, end, flag);
         }
         if (url != null) {
             mBuilder.setSpan(new URLSpan(url), start, end, flag);
