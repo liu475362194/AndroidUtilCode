@@ -1,8 +1,6 @@
 package com.blankj.base.mvp;
 
 import android.app.Activity;
-import android.arch.lifecycle.Lifecycle;
-import android.support.annotation.NonNull;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -10,6 +8,9 @@ import com.blankj.utilcode.util.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
 
 /**
  * <pre>

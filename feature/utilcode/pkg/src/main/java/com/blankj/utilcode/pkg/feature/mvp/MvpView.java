@@ -1,6 +1,5 @@
 package com.blankj.utilcode.pkg.feature.mvp;
 
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,6 +7,8 @@ import com.blankj.base.mvp.BaseView;
 import com.blankj.utilcode.pkg.R;
 import com.blankj.utilcode.util.ClickUtils;
 import com.blankj.utilcode.util.ToastUtils;
+
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * <pre>

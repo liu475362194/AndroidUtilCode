@@ -1,14 +1,15 @@
 package com.blankj.utildebug.base.view;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 
 import com.blankj.utildebug.DebugUtils;
 import com.blankj.utildebug.R;
 import com.blankj.utildebug.base.view.listener.OnBackListener;
 import com.blankj.utildebug.base.view.listener.OnRefreshListener;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * <pre>

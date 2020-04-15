@@ -8,9 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.WindowManager;
@@ -24,6 +21,10 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import static com.blankj.utilcode.constant.PermissionConstants.Permission;
 

@@ -3,8 +3,8 @@ package com.blankj.utilcode.pkg.feature.toast
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
 import android.view.Gravity
+import androidx.core.content.ContextCompat
 import com.blankj.common.activity.CommonActivity
 import com.blankj.common.item.CommonItem
 import com.blankj.common.item.CommonItemClick

@@ -2,12 +2,13 @@ package com.blankj.utilcode.util;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
-import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import androidx.annotation.NonNull;
 
 /**
  * <pre>

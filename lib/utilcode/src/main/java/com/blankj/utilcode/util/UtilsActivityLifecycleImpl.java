@@ -3,10 +3,8 @@ package com.blankj.utilcode.util;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Application;
-import android.arch.lifecycle.Lifecycle;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,6 +16,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Lifecycle;
 
 /**
  * <pre>

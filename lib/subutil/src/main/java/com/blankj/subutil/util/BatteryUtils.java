@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
-import android.support.annotation.IntDef;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.Utils;
@@ -15,6 +14,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.Set;
+
+import androidx.annotation.IntDef;
 
 /**
  * <pre>

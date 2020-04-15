@@ -18,9 +18,9 @@ class Config {
     static versionName = '1.28.0'// E.g. 1.9.72 => 1,009,072
 
     // lib version
-    static gradlePluginVersion = '3.5.0'
+    static gradlePluginVersion = '3.5.2'
     static kotlinVersion = '1.3.50'
-    static supportVersion = '28.0.0'
+    static androidxVersion = '1.0.0'
 
     static depConfig = [
             /*Never delete this line*/
@@ -40,7 +40,7 @@ class Config {
             lib_base                   : new DepConfig(true , true , ":lib:base"),
             lib_common                 : new DepConfig(true , true , ":lib:common"),
             lib_subutil                : new DepConfig(true , true , ":lib:subutil"),
-            lib_utilcode               : new DepConfig(true , true , ":lib:utilcode", "com.blankj:utilcode:$versionName"),
+            lib_utilcode               : new DepConfig(true , true , ":lib:utilcode", "com.blankj:utilcodex:$versionName"),
             lib_utildebug              : new DepConfig(true , true , ":lib:utildebug"),
             lib_utildebug_no_op        : new DepConfig(true , true , ":lib:utildebug-no-op"),
             /*Never delete this line*/
@@ -59,8 +59,8 @@ class Config {
             //./gradlew plugin:plugin_bus-gradle-plugin:mavenLocal     // 上传到本地 mavenLocal
             //./gradlew plugin:plugin_bus-gradle-plugin:bintrayUpload  // 上传到 jcenter
 
-            support_appcompat_v7       : new DepConfig("com.android.support:appcompat-v7:$supportVersion"),
-            support_design             : new DepConfig("com.android.support:design:$supportVersion"),
+            support_appcompat          : new DepConfig("androidx.appcompat:appcompat:$androidxVersion"),
+            support_material           : new DepConfig("com.google.android.material:material:$androidxVersion"),
             support_multidex           : new DepConfig("com.android.support:multidex:1.0.2"),
             support_constraint         : new DepConfig("com.android.support.constraint:constraint-layout:1.1.3"),
 

@@ -11,12 +11,13 @@ import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * <pre>

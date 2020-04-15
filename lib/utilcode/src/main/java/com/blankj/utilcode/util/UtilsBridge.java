@@ -8,8 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresPermission;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -22,6 +20,9 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 
 import static android.Manifest.permission.CALL_PHONE;
 

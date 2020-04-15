@@ -1,13 +1,14 @@
 dependencies {
+    compileOnly Config.depConfig.support_appcompat.dep
+    compileOnly Config.depConfig.support_material.dep
+
     implementation Config.depConfig.lib_utilcode.dep
     implementation Config.depConfig.swipe_panel.dep
     implementation Config.depConfig.photo_view.dep
-    implementation Config.depConfig.support_appcompat_v7.dep
-    compileOnly Config.depConfig.support_design.dep
 
     testImplementation Config.depConfig.test_junit.dep
     testImplementation Config.depConfig.test_robolectric.dep
-    testImplementation Config.depConfig.support_appcompat_v7.dep
+    testImplementation Config.depConfig.support_appcompat.dep
 }
 
 afterEvaluate {
