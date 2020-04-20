@@ -194,20 +194,6 @@ public final class ConvertUtils {
     }
 
     /**
-     * int 转 16进制字符串
-     *
-     * @param value 内容，int
-     * @param size  需要转换的大小
-     */
-    public static String int2HexString(int value, int size) {
-        String hexString = bytes2HexString(int2Bytes(value, size));
-        if (size > 1)
-            hexString = hexString.replace(" ", "");
-
-        return hexString;
-    }
-
-    /**
      * 十进制转换成二进制
      *
      * @param value 十进制整数
