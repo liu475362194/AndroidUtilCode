@@ -39,6 +39,9 @@ import java.util.List;
  */
 public final class ConvertUtils {
 
+    /**
+     * 更新测试
+     */
     private static final int    BUFFER_SIZE      = 8192;
     private static final char[] HEX_DIGITS_UPPER =
             {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
