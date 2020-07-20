@@ -256,6 +256,9 @@ public final class ToastUtils {
     }
 
     private static void show(final CharSequence text, final int duration) {
+        if (!AppUtils.isAppForeground())
+            return;
+
         UtilsBridge.runOnUiThread(new Runnable() {
             @SuppressLint("ShowToast")
             @Override
