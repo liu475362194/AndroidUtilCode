@@ -42,7 +42,7 @@ public final class ConvertUtils {
     /**
      * 更新测试
      */
-    private static final int    BUFFER_SIZE      = 8192;
+    private static final int BUFFER_SIZE = 8192;
     private static final char[] HEX_DIGITS_UPPER =
             {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
     private static final char[] HEX_DIGITS_LOWER =
@@ -190,9 +190,12 @@ public final class ConvertUtils {
      */
     public static int bytes2Int2(byte[] bytes, int offset, int size) {
         int value = 0;
-        for (int i = 0; i < size; i++) {
-            value = value | ((bytes[offset + i] & 0xFF) << (i * 8));
-        }
+        if (bytes.length < (offset + size))
+            LogUtils.e("解析的位数不够，bytes.length: " + bytes.length + ", 需要解析到第 " + (offset + size - 1) + " 位", bytes2HexString(bytes));
+        else
+            for (int i = 0; i < size; i++) {
+                value = value | ((bytes[offset + i] & 0xFF) << (i * 8));
+            }
         return value;
     }
 
