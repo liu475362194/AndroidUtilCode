@@ -1,11 +1,15 @@
 package com.blankj.utilcode.util;
 
+import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Locale;
+
+import androidx.annotation.LayoutRes;
 
 /**
  * <pre>
@@ -105,5 +109,11 @@ public class ViewUtils {
                 fixScrollViewTopping(childAt);
             }
         }
+    }
+
+    public static View layoutId2View(@LayoutRes final int layoutId) {
+        LayoutInflater inflate =
+                (LayoutInflater) Utils.getApp().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        return inflate.inflate(layoutId, null);
     }
 }

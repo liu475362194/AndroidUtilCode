@@ -643,7 +643,7 @@ public final class ConvertUtils {
     /**
      * Output stream to input stream.
      */
-    public ByteArrayInputStream output2InputStream(final OutputStream out) {
+    public static ByteArrayInputStream output2InputStream(final OutputStream out) {
         if (out == null) return null;
         return new ByteArrayInputStream(((ByteArrayOutputStream) out).toByteArray());
     }
