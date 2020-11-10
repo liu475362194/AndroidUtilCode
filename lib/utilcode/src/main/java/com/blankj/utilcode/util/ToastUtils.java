@@ -450,6 +450,9 @@ public final class ToastUtils {
     }
 
     private static void show(@Nullable final View view, final CharSequence text, final int duration, final ToastUtils utils) {
+        if (!AppUtils.isAppForeground())
+            return;
+
         UtilsBridge.runOnUiThread(new Runnable() {
             @Override
             public void run() {
