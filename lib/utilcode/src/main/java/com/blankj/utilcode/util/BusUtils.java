@@ -16,6 +16,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * <pre>
  *     author: Blankj
@@ -61,31 +64,27 @@ public final class BusUtils {
         busInfoList.add(new BusInfo(tag, className, funName, paramType, paramName, sticky, threadMode, priority));
     }
 
-    public static void register(final Object bus) {
+    public static void register(@Nullable final Object bus) {
         getInstance().registerInner(bus);
     }
 
-    public static void unregister(final Object bus) {
+    public static void unregister(@Nullable final Object bus) {
         getInstance().unregisterInner(bus);
     }
 
-    public static Boolean isRegister(final Object bus) {
-        return getInstance().isRegisterInner(bus);
-    }
-
-    public static void post(final String tag) {
+    public static void post(@NonNull final String tag) {
         post(tag, NULL);
     }
 
-    public static void post(final String tag, final Object arg) {
+    public static void post(@NonNull final String tag, @NonNull final Object arg) {
         getInstance().postInner(tag, arg);
     }
 
-    public static void postSticky(final String tag) {
+    public static void postSticky(@NonNull final String tag) {
         postSticky(tag, NULL);
     }
 
-    public static void postSticky(final String tag, final Object arg) {
+    public static void postSticky(@NonNull final String tag, final Object arg) {
         getInstance().postStickyInner(tag, arg);
     }
 
@@ -106,21 +105,7 @@ public final class BusUtils {
         return LazyHolder.INSTANCE;
     }
 
-    private Boolean isRegisterInner(final Object bus) {
-        if (bus == null) return false;
-        Class<?> aClass = bus.getClass();
-        String className = aClass.getName();
-        synchronized (mClassName_BusesMap) {
-            Set<Object> buses = mClassName_BusesMap.get(className);
-            if (buses == null) {
-                buses = new CopyOnWriteArraySet<>();
-                mClassName_BusesMap.put(className, buses);
-            }
-            return buses.contains(bus);
-        }
-    }
-
-    private void registerInner(final Object bus) {
+    private void registerInner(@Nullable final Object bus) {
         if (bus == null) return;
         Class<?> aClass = bus.getClass();
         String className = aClass.getName();
@@ -183,7 +168,7 @@ public final class BusUtils {
     private void consumeSticky(final Object bus, final String tag, final Object arg) {
         List<BusInfo> busInfoList = mTag_BusInfoListMap.get(tag);
         if (busInfoList == null) {
-//            Log.e(TAG, "The bus of tag <" + tag + "> is not exists.");
+            Log.e(TAG, "The bus of tag <" + tag + "> is not exists.");
             return;
         }
         for (BusInfo busInfo : busInfoList) {
@@ -224,7 +209,7 @@ public final class BusUtils {
     private void postInner(final String tag, final Object arg, final boolean sticky) {
         List<BusInfo> busInfoList = mTag_BusInfoListMap.get(tag);
         if (busInfoList == null) {
-//            Log.e(TAG, "The bus of tag <" + tag + "> is not exists.");
+            Log.e(TAG, "The bus of tag <" + tag + "> is not exists.");
             if (mTag_BusInfoListMap.isEmpty()) {
                 Log.e(TAG, "Please check whether the bus plugin is applied.");
             }
@@ -330,9 +315,9 @@ public final class BusUtils {
                 }
             }
             if (buses.size() == 0) {
-//                if (!sticky) {
-//                    Log.e(TAG, "The " + busInfo + " was not registered before.");
-//                }
+                if (!sticky) {
+                    Log.e(TAG, "The " + busInfo + " was not registered before.");
+                }
                 return;
             }
         } else {
@@ -362,7 +347,7 @@ public final class BusUtils {
     private void postStickyInner(final String tag, final Object arg) {
         List<BusInfo> busInfoList = mTag_BusInfoListMap.get(tag);
         if (busInfoList == null) {
-//            Log.e(TAG, "The bus of tag <" + tag + "> is not exists.");
+            Log.e(TAG, "The bus of tag <" + tag + "> is not exists.");
             return;
         }
         // 获取多对象，然后消费各个 busInfoList
@@ -386,7 +371,7 @@ public final class BusUtils {
     private void removeStickyInner(final String tag) {
         List<BusInfo> busInfoList = mTag_BusInfoListMap.get(tag);
         if (busInfoList == null) {
-//            Log.e(TAG, "The bus of tag <" + tag + "> is not exists.");
+            Log.e(TAG, "The bus of tag <" + tag + "> is not exists.");
             return;
         }
         for (BusInfo busInfo : busInfoList) {
