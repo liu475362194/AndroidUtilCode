@@ -46,8 +46,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.FloatRange;
 import androidx.annotation.IntRange;
@@ -2342,6 +2345,68 @@ public final class ImageUtils {
             inSampleSize <<= 1;
         }
         return inSampleSize;
+    }
+
+    /**
+     * 将bitmap集合上下拼接,纵向(多个)
+     *
+     * @param bgColor #4088F0
+     * @param bitmaps
+     * @return
+     */
+    public static Bitmap bitmapSplicingVertical(@ColorInt int bgColor, List<Bitmap> bitmaps) {
+        int width = bitmaps.get(0).getWidth();
+        int height = bitmaps.get(0).getHeight();
+        for (int i = 1; i < bitmaps.size(); i++) {
+            if (width < bitmaps.get(i).getWidth()) {
+                width = bitmaps.get(i).getWidth();
+            }
+            height = height + bitmaps.get(i).getHeight();
+        }
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(result);
+        if (bgColor != -1)
+            canvas.drawColor(bgColor);
+        Paint paint = new Paint();
+        paint.setDither(true);
+        canvas.drawBitmap(bitmaps.get(0), 0, 0, paint);
+        int h = 0;
+        for (int j = 1; j < bitmaps.size(); j++) {
+            h = bitmaps.get(j - 1).getHeight() + h;
+            canvas.drawBitmap(bitmaps.get(j), 0, h, paint);
+        }
+        return result;
+    }
+
+    /**
+     * 将bitmap集合上下拼接,横向(多个)
+     *
+     * @param bgColor #4088F0
+     * @param bitmaps
+     * @return
+     */
+    public static Bitmap bitmapSplicingHorizontal(@ColorInt int bgColor, ArrayList<Bitmap> bitmaps) {
+        int width = bitmaps.get(0).getWidth();
+        int height = bitmaps.get(0).getHeight();
+        for (int i = 1; i < bitmaps.size(); i++) {
+            if (height < bitmaps.get(i).getHeight()) {
+                height = bitmaps.get(i).getHeight();
+            }
+            width = width + bitmaps.get(i).getWidth();
+        }
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(result);
+        if (bgColor != -1)
+            canvas.drawColor(bgColor);
+        Paint paint = new Paint();
+        paint.setDither(true);
+        canvas.drawBitmap(bitmaps.get(0), 0, 0, paint);
+        int w = 0;
+        for (int j = 1; j < bitmaps.size(); j++) {
+            w = bitmaps.get(j - 1).getWidth() + w;
+            canvas.drawBitmap(bitmaps.get(j), w, 0, paint);
+        }
+        return result;
     }
 
     public enum ImageType {
