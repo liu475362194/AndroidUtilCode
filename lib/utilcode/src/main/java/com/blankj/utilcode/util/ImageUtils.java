@@ -2354,7 +2354,7 @@ public final class ImageUtils {
      * @param bitmaps
      * @return
      */
-    public static Bitmap bitmapSplicingVertical(@ColorInt int bgColor, List<Bitmap> bitmaps) {
+    public static Bitmap bitmapSplicingVertical(@ColorRes int bgColor, List<Bitmap> bitmaps) {
         int width = bitmaps.get(0).getWidth();
         int height = bitmaps.get(0).getHeight();
         for (int i = 1; i < bitmaps.size(); i++) {
@@ -2365,8 +2365,7 @@ public final class ImageUtils {
         }
         Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(result);
-        if (bgColor != -1)
-            canvas.drawColor(bgColor);
+        canvas.drawColor(ColorUtils.getColor(bgColor));
         Paint paint = new Paint();
         paint.setDither(true);
         canvas.drawBitmap(bitmaps.get(0), 0, 0, paint);
@@ -2385,7 +2384,7 @@ public final class ImageUtils {
      * @param bitmaps
      * @return
      */
-    public static Bitmap bitmapSplicingHorizontal(@ColorInt int bgColor, ArrayList<Bitmap> bitmaps) {
+    public static Bitmap bitmapSplicingHorizontal(@ColorRes int bgColor, ArrayList<Bitmap> bitmaps) {
         int width = bitmaps.get(0).getWidth();
         int height = bitmaps.get(0).getHeight();
         for (int i = 1; i < bitmaps.size(); i++) {
@@ -2396,8 +2395,7 @@ public final class ImageUtils {
         }
         Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(result);
-        if (bgColor != -1)
-            canvas.drawColor(bgColor);
+        canvas.drawColor(ColorUtils.getColor(bgColor));
         Paint paint = new Paint();
         paint.setDither(true);
         canvas.drawBitmap(bitmaps.get(0), 0, 0, paint);
